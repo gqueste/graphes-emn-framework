@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-public class TestAdjancyListUndirectedGraph {	
+public class TestAdjacencyListUndirectedGraph {	
 
 	@Test
 	public void testConstructeur() {

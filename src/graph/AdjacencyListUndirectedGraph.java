@@ -25,6 +25,17 @@ public class AdjacencyListUndirectedGraph implements IUndirectedGraph {
 		this.node.add(indiceSucc);
 		this.succ.add(null);
 	}
+	
+	public AdjacencyListUndirectedGraph(IUndirectedGraph graph) {
+		this.node = new ArrayList<Integer>();
+		this.succ = new ArrayList<Integer>();
+		
+		int[][] mat = graph.toAdjacencyMatrix();
+		AdjacencyListUndirectedGraph conv = new AdjacencyListUndirectedGraph(mat);
+		
+		this.node = conv.getNode();
+		this.succ = conv.getSucc();
+	}
 
 	public ArrayList<Integer> getNode() {
 		return node;

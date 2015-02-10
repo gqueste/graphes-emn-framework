@@ -1,47 +1,59 @@
 package graph;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
 
+//creation du minimum spanning tree
 public class Prim {
 
-	class Edge {
-		public final int x;
-		public final int y;
-		public final int weight;
-
-		public Edge(int x, int y, int weight) {
-			this.x = x;
-			this.y = y;
-			this.weight = weight;
-		}
-	}
-
-	private Edge getSmallestEdge(IValuatedUndirectGraph graph, IValuatedUndirectGraph tree, Set<Integer> treeNodes) {
-		int x = -1, y = -1;
-		int minWeight = Integer.MAX_VALUE;
-		for (int i = 0 ; i < graph.getNbNodes() ; ++i)
-			if (!treeNodes.contains(i))
-				for (int neighbor : graph.getNeighbors(i))
-					if (treeNodes.contains(neighbor) &&
-							graph.weightOfEdge(i, neighbor) <= minWeight) {
-						x = neighbor;
-						y = i;
-						minWeight = graph.weightOfEdge(i, neighbor);
+	public static IUndirectedGraph minimumSpanningTree(IValuatedUndirectGraph g) {
+		// Version 1 : g est forcément connexe
+		// version 2 : g pas forcément connexe ; 
+		// 		on retourne lors l'arbre minimal
+		//		couvrant la composante connexe contenant le sommet initial (ici 0)
+		boolean encoreUnVoisinNonAtteint = true; // version 2 : g pas nécessairement connexe
+		int n = g.getNbNodes();
+		IValuatedUndirectGraph st = new ValuatedAdjacencyMatrixUndirectedGraph(n); // st pour spanning tree
+		ArrayList<Integer> sommetsAtteints = new ArrayList<Integer>();
+		int xMin=0;
+		int yMin=0;
+		sommetsAtteints.add(0); // premier sommet
+		//	while (sommetsAtteints.size() < n) { // Version 1 
+		while (encoreUnVoisinNonAtteint) { // version 2
+			encoreUnVoisinNonAtteint = false; // version 2
+			int valeur = Integer.MAX_VALUE;
+			for (int x : sommetsAtteints) {
+				for (int y : g.getNeighbors(x)) {
+					//		    if (!sommetsAtteints.contains(y) && g.getValue(x, y) < valeur) { // version 1
+					if (!sommetsAtteints.contains(y)) { // version 2
+						encoreUnVoisinNonAtteint = true; // il reste au moins un voisin non encore atteint (y) ; version 2
+						if (g.weightOfEdge(x, y) < valeur) { // version 2
+							valeur = g.weightOfEdge(x, y);
+							xMin = x;
+							yMin = y;
+						} 
 					}
+				}
+			}
+			if (encoreUnVoisinNonAtteint) { // version 2
+				sommetsAtteints.add(yMin);
+				st.addEdge(xMin, yMin, g.weightOfEdge(xMin, yMin));
+			}
 
-		return new Edge(x, y, minWeight);
+		}
+		return st;
+
 	}
 
-	public IValuatedUndirectGraph apply(IValuatedUndirectGraph graph) {
-		IValuatedUndirectGraph tree = new ValuatedAdjacencyMatrixUndirectedGraph(new int[graph.getNbNodes()][graph.getNbNodes()]);
-		Set<Integer> treeNodes = new HashSet<Integer>();
-		treeNodes.add(0);
-		for (int i = 0 ; i < tree.getNbNodes() - 1 ; ++i) {
-			Edge edge = getSmallestEdge(graph, tree, treeNodes);
-			treeNodes.add(edge.y);
-			tree.addEdge(edge.x, edge.y, edge.weight);
+	public static void main(String[] args) {
+		int[][] data = GraphTools.generateValuatedGraphData(5, 8, true, 1, 10);
+		IValuatedUndirectGraph g = new ValuatedAdjacencyMatrixUndirectedGraph(data);
+
+		GraphTools.show(g.toAdjacencyMatrix());
+		
+		for (int x = 0 ; x < g.getNbNodes() ; x++) {
+			System.out.println(x + ":" + GraphTools.arrayToString(g.getNeighbors(x)));
 		}
-		return tree;
+
+		GraphTools.show(minimumSpanningTree(g).toAdjacencyMatrix());
 	}
 }

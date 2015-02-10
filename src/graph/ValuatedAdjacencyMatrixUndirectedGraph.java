@@ -1,25 +1,19 @@
 package graph;
 
+/**
+ * 
+ * Matrice avec poids. poids > 0
+ */
 public class ValuatedAdjacencyMatrixUndirectedGraph implements IValuatedUndirectGraph {
-private int[][] adjacencyMatrix;
+	private int[][] adjacencyMatrix;
 	
 	public ValuatedAdjacencyMatrixUndirectedGraph(int[][] adjacencyMatrix) {
 		this.adjacencyMatrix = adjacencyMatrix;
 	}
+	
 	public ValuatedAdjacencyMatrixUndirectedGraph(int n){
 		int[][] adjacencyMatrix = new int[n][n];
-		for (int i = 0 ; i< n ; i++){
-			for (int j = 0 ; j < n ; j++){
-				if(i!=j){
-					adjacencyMatrix[i][j] = Integer.MAX_VALUE;
-				}
-				else{
-					adjacencyMatrix[i][i] = 0;
-				}
-			}
-		}
 		this.adjacencyMatrix = adjacencyMatrix;
-		
 	}
 	
 	public int get(int x , int y ){
@@ -64,8 +58,8 @@ private int[][] adjacencyMatrix;
 
 	@Override
 	public void removeEdge(int x, int y) {
-		this.set(x, y, Integer.MAX_VALUE);
-		this.set(y, x, Integer.MAX_VALUE);
+		this.set(x, y, 0);
+		this.set(y, x, 0);
 	}
 
 	
@@ -87,7 +81,7 @@ private int[][] adjacencyMatrix;
 	public int[] getNeighbors(int x) {
 		int compteur = 0 ; 
 		for (int i = 0 ; i<this.adjacencyMatrix[x].length ; i++){
-			if (x!=i && this.get(x, i)<Integer.MAX_VALUE){
+			if (x!=i && this.get(x, i)> 0){
 				compteur++;
 			}
 		}
@@ -95,7 +89,7 @@ private int[][] adjacencyMatrix;
 		int[] voisins = new int[compteur];
 		int offset = 0;
 		for (int j = 0 ; j< this.adjacencyMatrix[x].length ; j++){
-			if( x!=j && this.get(x, j)<Integer.MAX_VALUE){
+			if( x!=j && this.get(x, j) > 0){
 				voisins[offset] = j;
 				offset++;
 			}

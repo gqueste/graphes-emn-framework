@@ -3,13 +3,14 @@ package graph;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
 
 public class GraphTools {
 
 	public static int[][] generateGraphData(int n, int m, boolean s) {
 		int[][] ret = new int[n][n];
-		
+
 		ArrayList<Arc> arcs = new ArrayList<Arc>();
 		for (int i = 0; i < n; i++) {
 			for (int j = 0; j < n; j++) {
@@ -26,8 +27,41 @@ public class GraphTools {
 				ret[toInsert.getSecond()][toInsert.getFirst()] = 1;
 			}
 		}
-		
+
 		return ret;
+	}
+
+	public static int[][] generateValuatedGraphData(int n, int m, boolean s, int min, int max) {
+		Random rand = new Random(0);
+		int[][] ret = new int[n][n];
+
+		ArrayList<Arc> arcs = new ArrayList<Arc>();
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				if(j != i) {
+					arcs.add(new Arc(i, j));
+				}
+			}
+		}
+		Collections.shuffle(arcs);
+		for (int i = 0; i < m; i++) {
+			Arc toInsert = arcs.get(i);
+			int poids = rand.nextInt(max+1-min) + min;
+			ret[toInsert.getFirst()][toInsert.getSecond()] = poids;
+			if (s) {
+				ret[toInsert.getSecond()][toInsert.getFirst()] = poids;
+			}
+		}
+
+		return ret;
+	}
+
+	public static String arrayToString(int[] tab) {
+		ArrayList<Integer> a = new ArrayList<Integer>();
+		for (int i = 0 ; i < tab.length ; i++) {
+			a.add(tab[i]);
+		}
+		return a.toString();
 	}
 
 	public static void show(int[][] matrice){
@@ -47,7 +81,7 @@ public class GraphTools {
 		}
 		System.out.println();
 	}
-	
+
 	public static boolean equals(int[][] array1, int[][] array2) {
 		boolean ret = true;
 		if(array1.length != array2.length) {
@@ -63,7 +97,7 @@ public class GraphTools {
 		}
 		return ret;
 	}
-	
+
 	public static int explorerSommet(int s, ArrayList<Integer> atteint, IUndirectedGraph graphe, int compteur, int[] debut , int[] fin) {
 		int res = compteur;
 		for (int t : graphe.getNeighbors(s)) {
@@ -80,8 +114,8 @@ public class GraphTools {
 		res++;
 		return res;
 	} 
-	
-	
+
+
 	public static int explorerSommet(int s, ArrayList<Integer> atteint, IDirectedGraph graphe, int compteur, int[] debut , int[] fin) {
 		int res = compteur;
 		for (int t : graphe.getSuccessors(s)) {
@@ -98,7 +132,7 @@ public class GraphTools {
 		res++;
 		return res;
 	} 
-	
+
 	/**
 	 * (Recursif) Exploration en profondeur d'un graphe non oriente
 	 * @param graphe le graphe que vous voulez explorer

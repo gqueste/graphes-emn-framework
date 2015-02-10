@@ -27,21 +27,6 @@ public class GraphTools {
 			}
 		}
 		
-		//ou créez tous les arcs dans 1 tableau
-		//puis shuffle et on prend les n premiers
-		//tirage sans remise à faire
-		/*
-		while (m != 0){
-			int x = (int) Math.floor(Math.random()*n);
-			int y = (int) Math.floor(Math.random()*n);
-			if(ret[x][y] == 0 && x != y){
-				ret[x][y] = 1;
-				if (s){
-					ret[y][x] = 1;
-				}
-				m--;
-			}
-		}*/
 		return ret;
 	}
 
@@ -117,7 +102,7 @@ public class GraphTools {
 	/**
 	 * (Recursif) Exploration en profondeur d'un graphe non oriente
 	 * @param graphe le graphe que vous voulez explorer
-	 * @param n le noeud à partir duquel vous voulez commencer l'exploration
+	 * @param n le noeud Ã  partir duquel vous voulez commencer l'exploration
 	 * @return le parcours du graphe
 	 */
 	public static ArrayList<Integer> explorerProfondeurRec(IUndirectedGraph graphe) {
@@ -136,7 +121,7 @@ public class GraphTools {
 					if (!atteint.contains(s)) {
 						atteint.add(s);
 						debut[s] = compteur;
-						System.out.println("début de "+ s +" : " + debut[s]);
+						System.out.println("dï¿½but de "+ s +" : " + debut[s]);
 						compteur = explorerSommet(s, atteint, graphe,compteur,debut,fin);
 						fin[s] = compteur;
 						compteur++;
@@ -155,7 +140,7 @@ public class GraphTools {
 	/**
 	 * (Recursif) Exploration en profondeur d'un graphe oriente
 	 * @param graphe le graphe que vous voulez explorer
-	 * @param n le noeud à partir duquel vous voulez commencer l'exploration
+	 * @param n le noeud Ã  partir duquel vous voulez commencer l'exploration
 	 * @return le parcours du graphe
 	 */
 	public static ArrayList<Integer> explorerProfondeurRec(IDirectedGraph graphe) {
@@ -188,9 +173,6 @@ public class GraphTools {
 			}
 			i++;
 		}
-
-
-
 		return atteint;
 	}
 }

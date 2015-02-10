@@ -34,6 +34,12 @@ public class GraphTools {
 	public static int[][] generateValuatedGraphData(int n, int m, boolean s, int min, int max) {
 		Random rand = new Random(0);
 		int[][] ret = new int[n][n];
+		
+		for (int i = 0; i < ret.length; i++) {
+			for (int j = 0; j < ret.length; j++) {
+				ret[i][j] = Integer.MAX_VALUE;
+			}
+		}
 
 		ArrayList<Arc> arcs = new ArrayList<Arc>();
 		for (int i = 0; i < n; i++) {

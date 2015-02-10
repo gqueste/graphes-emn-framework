@@ -12,8 +12,12 @@ public class ValuatedAdjacencyMatrixUndirectedGraph implements IValuatedUndirect
 	}
 	
 	public ValuatedAdjacencyMatrixUndirectedGraph(int n){
-		int[][] adjacencyMatrix = new int[n][n];
-		this.adjacencyMatrix = adjacencyMatrix;
+		adjacencyMatrix = new int[n][n];
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				adjacencyMatrix[i][j] = Integer.MAX_VALUE;
+			}
+		}
 	}
 	
 	public int get(int x , int y ){
@@ -43,7 +47,7 @@ public class ValuatedAdjacencyMatrixUndirectedGraph implements IValuatedUndirect
 		int res = 0 ;
 		for (int i=0; i<this.adjacencyMatrix.length;i++){
 			for (int j = i; j<this.adjacencyMatrix[i].length ; j++){
-				if(this.adjacencyMatrix[i][j] >=1){
+				if(this.adjacencyMatrix[i][j] < Integer.MAX_VALUE){
 					res++;
 				}
 			}
@@ -53,13 +57,13 @@ public class ValuatedAdjacencyMatrixUndirectedGraph implements IValuatedUndirect
 
 	@Override
 	public boolean isEdge(int x, int y) {
-		return this.get(x, y)>=1 && this.get(x, y)<Integer.MAX_VALUE;
+		return this.get(x, y)<Integer.MAX_VALUE;
 	}
 
 	@Override
 	public void removeEdge(int x, int y) {
-		this.set(x, y, 0);
-		this.set(y, x, 0);
+		this.set(x, y, Integer.MAX_VALUE);
+		this.set(y, x, Integer.MAX_VALUE);
 	}
 
 	
@@ -71,8 +75,8 @@ public class ValuatedAdjacencyMatrixUndirectedGraph implements IValuatedUndirect
 	
 	@Override
 	public void addEdge(int x, int y) {
-		this.set(x, y, 1);
-		this.set(y, x, 1);
+		this.set(x, y, Integer.MAX_VALUE);
+		this.set(y, x, Integer.MAX_VALUE);
 	}
 	
 	
@@ -81,7 +85,7 @@ public class ValuatedAdjacencyMatrixUndirectedGraph implements IValuatedUndirect
 	public int[] getNeighbors(int x) {
 		int compteur = 0 ; 
 		for (int i = 0 ; i<this.adjacencyMatrix[x].length ; i++){
-			if (x!=i && this.get(x, i)> 0){
+			if (x!=i && this.get(x, i) < Integer.MAX_VALUE){
 				compteur++;
 			}
 		}
@@ -89,7 +93,7 @@ public class ValuatedAdjacencyMatrixUndirectedGraph implements IValuatedUndirect
 		int[] voisins = new int[compteur];
 		int offset = 0;
 		for (int j = 0 ; j< this.adjacencyMatrix[x].length ; j++){
-			if( x!=j && this.get(x, j) > 0){
+			if( x!=j && this.get(x, j) < Integer.MAX_VALUE){
 				voisins[offset] = j;
 				offset++;
 			}

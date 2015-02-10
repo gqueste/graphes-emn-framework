@@ -74,9 +74,10 @@ public class ValuatedAdjacencyMatrixUndirectedGraph implements IValuatedUndirect
 	}
 	
 	@Override
+	@Deprecated
 	public void addEdge(int x, int y) {
-		this.set(x, y, Integer.MAX_VALUE);
-		this.set(y, x, Integer.MAX_VALUE);
+		this.set(x, y, 1);
+		this.set(y, x, 1);
 	}
 	
 	

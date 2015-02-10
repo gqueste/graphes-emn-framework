@@ -1,6 +1,6 @@
 package graph;
 
-public class ValuatedAdjacencyMatrixUndirectedGraph implements IUndirectedGraph {
+public class ValuatedAdjacencyMatrixUndirectedGraph implements IValuatedUndirectGraph {
 private int[][] adjacencyMatrix;
 	
 	public ValuatedAdjacencyMatrixUndirectedGraph(int[][] adjacencyMatrix) {
@@ -69,6 +69,7 @@ private int[][] adjacencyMatrix;
 	}
 
 	
+	@Override
 	public void addEdge(int x, int y, int value) {
 		this.set(x, y, value);
 		this.set(y, x, value);
@@ -100,5 +101,10 @@ private int[][] adjacencyMatrix;
 			}
 		}
 		return voisins;
+	}
+	
+	@Override
+	public int weightOfEdge(int x, int y) {
+		return adjacencyMatrix[x][y];
 	}
 }

@@ -40,7 +40,6 @@ public class Floyd {
 				}
 			}
 		}
-		//normalement on fait une derniere verification pour être sûr que p n'a pas de coeff négatif
 		return v;
 	}
 }

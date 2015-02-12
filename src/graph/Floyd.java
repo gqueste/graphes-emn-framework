@@ -3,7 +3,7 @@ package graph;
 public class Floyd {
 	
 	
-	public static int[][] floyd(IValuatedUndirectGraph graph, int s){
+	public static int[][] floyd(IValuatedUndirectGraph graph){
 		int[][] cout = graph.toAdjacencyMatrix();
 		int n = graph.getNbNodes();
 		
